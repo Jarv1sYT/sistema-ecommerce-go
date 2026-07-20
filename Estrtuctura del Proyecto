@@ -1,0 +1,16 @@
+GO - Ecommerce/
+├── go.mod
+├── main.go
+├── README.md
+├── modelos/
+│   ├── producto.go
+│   ├── cliente.go
+│   └── pedido.go
+├── funciones/
+│   ├── productos.go
+│   ├── clientes.go
+│   └── pedidos.go
+└── datos/
+    ├── productos.json
+    ├── clientes.json
+    └── pedidos.json
