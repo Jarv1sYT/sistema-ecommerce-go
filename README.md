@@ -31,7 +31,7 @@ El software opera simultáneamente en:
 
 | Nombre | Rol |
 |--------|-----|
-| **Marlon Rivera** | Desarrollador único — Diseño, Arquitectura, Implementación, Testing y Documentación |
+| **Marlon Rivera** |
 
 ---
 
@@ -191,7 +191,7 @@ El sistema implementa un **Worker Pool** para procesar pedidos de forma concurre
 ### Flujo de Concurrencia
 
 ```
-Petición HTTP ──► CheckoutHandler ──► [Canal de Solicitudes] ──► Worker Goroutine 1
+Petición HTTP ──► CheckoutHandler ──► [Canal de Solicitudes]  ──► Worker Goroutine 1
                                                               ──► Worker Goroutine 2
                                                               ──► Worker Goroutine 3
                                                                         │
