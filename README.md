@@ -16,9 +16,9 @@ Sistema completo de gestión de comercio electrónico desarrollado en **Go (Gola
 | Unidad | Concepto | Implementación |
 |--------|----------|----------------|
 | **Unidad 1-2** | Programación Orientada a Objetos | Estructuras, métodos, constructores y composición |
-| **Unidad 3** | Encapsulación e Interfaces | Campos privados, getters/setters controlados, interfaz `Mostrable` |
-| **Unidad 4** | Servicios Web y Concurrencia | API REST con 8 endpoints JSON + Worker Pool con Goroutines y Channels |
-| **Unidad 4** | Testing Automatizado | 44 pruebas unitarias y de integración con `testing` y `httptest` |
+| **Unidad 3**   | Encapsulación e Interfaces | Campos privados, getters/setters controlados, interfaz `Mostrable` |
+| **Unidad 4**   | Servicios Web y Concurrencia | API REST con 8 endpoints JSON + Worker Pool con Goroutines y Channels |
+| **Unidad 4**   | Testing Automatizado | 44 pruebas unitarias y de integración con `testing` y `httptest` |
 
 El software opera simultáneamente en:
 - 🖥️ **Consola interactiva** con menús y navegación por terminal.
@@ -29,8 +29,8 @@ El software opera simultáneamente en:
 
 ## 👤 Autor
 
-| Nombre | Rol |
-|--------|-----|
+| Nombre |
+|--------|
 | **Marlon Rivera** |
 
 ---
@@ -55,8 +55,8 @@ sistema-ecommerce-go/
 │   ├── inventario.go              # Consultas de inventario
 │   ├── carrito.go                 # Gestión del carrito + Checkout transaccional
 │   ├── pedidos.go                 # Historial y búsqueda de pedidos
-│   ├── productos_test.go          # ✅ 15 pruebas unitarias
-│   └── pedidos_test.go            # ✅ 14 pruebas unitarias
+│   ├── productos_test.go          # 15 pruebas unitarias
+│   └── pedidos_test.go            # 14 pruebas unitarias
 │
 ├── utilidades/                    # Capa de Soporte Transversal
 │   ├── entradas.go                # Lectura segura por consola (bufio.Reader)
@@ -67,7 +67,7 @@ sistema-ecommerce-go/
 │   ├── servidor.go                # Configuración del servidor HTTP y rutas
 │   ├── handlers.go                # 8 Endpoints REST con JSON
 │   ├── worker.go                  # Worker Pool (Goroutines + Channels + Mutex)
-│   └── handlers_test.go           # ✅ 16 pruebas de integración HTTP
+│   └── handlers_test.go           # 16 pruebas de integración HTTP
 │
 ├── public/                        # Capa de Presentación (Frontend)
 │   └── index.html                 # SPA con Bootstrap 5 que consume la API
