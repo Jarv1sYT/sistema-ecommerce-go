@@ -4,5 +4,11 @@
     "nombre": "Laptop Asus A16",
     "precio": 999,
     "cantidad_disponible": 2
+  },
+  {
+    "codigo": "P002",
+    "nombre": "RTX 5090",
+    "precio": 1000,
+    "cantidad_disponible": 5
   }
 ]

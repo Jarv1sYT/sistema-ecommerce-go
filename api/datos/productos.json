@@ -1,0 +1,14 @@
+[
+  {
+    "codigo": "P001",
+    "nombre": "Laptop HP",
+    "precio": 899.99,
+    "cantidad_disponible": 10
+  },
+  {
+    "codigo": "P002",
+    "nombre": "Mouse Logitech",
+    "precio": 25.5,
+    "cantidad_disponible": 45
+  }
+]

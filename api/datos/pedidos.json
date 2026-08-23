@@ -1,0 +1,24 @@
+[
+  {
+    "codigo": "PED-0001",
+    "cliente": {
+      "identificacion": "1234567890",
+      "nombre": "Juan Pérez",
+      "correo": "juan@email.com"
+    },
+    "elementos": [
+      {
+        "producto": {
+          "codigo": "P002",
+          "nombre": "Mouse Logitech",
+          "precio": 25.5,
+          "cantidad_disponible": 50
+        },
+        "cantidad": 5,
+        "subtotal": 127.5
+      }
+    ],
+    "total": 127.5,
+    "fecha": "2026-08-23 14:39:15"
+  }
+]

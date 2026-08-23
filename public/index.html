@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de E-Commerce</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            color: #212529;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-size: 1.15rem;
+        }
+
+        /* TABS */
+        .nav-tabs {
+            border-bottom: 2px solid #dee2e6;
+            background: #ffffff;
+            border-radius: 8px 8px 0 0;
+            padding: 0 8px;
+        }
+        .nav-tabs .nav-link {
+            color: #6c757d;
+            font-weight: 500;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.2s;
+        }
+        .nav-tabs .nav-link:hover {
+            color: #0d6efd;
+            background: #e8f0fe;
+        }
+        .nav-tabs .nav-link.active {
+            color: #0d6efd;
+            font-weight: 600;
+            background: #ffffff;
+            border-bottom: 3px solid #0d6efd;
+        }
+
+        /* CARDS */
+        .card {
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: 600;
+            color: #1e293b;
+            padding: 14px 20px;
+        }
+
+        /* TABLES */
+        .table {
+            color: #212529;
+            margin-bottom: 0;
+        }
+        .table thead th {
+            background-color: #e9ecef;
+            color: #1e293b;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.78rem;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #dee2e6;
+            padding: 12px 16px;
+        }
+        .table tbody td {
+            padding: 10px 16px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f0f4ff;
+        }
+
+        /* FORMS */
+        .form-control, .form-select {
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+            color: #212529;
+            border-radius: 6px;
+            padding: 8px 12px;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #ffffff;
+            color: #212529;
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+        }
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+        .form-label {
+            font-weight: 500;
+            color: #495057;
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* BUTTONS */
+        .btn-primary {
+            font-weight: 600;
+            border-radius: 6px;
+            padding: 8px 20px;
+        }
+        .btn-success {
+            font-weight: 600;
+            border-radius: 6px;
+        }
+        .btn-info {
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        /* BADGES */
+        .badge-stock {
+            font-size: 0.8rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        /* ALERTS */
+        .alert {
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* COMPROBANTE */
+        .comprobante {
+            background: #f0fdf4;
+            border: 2px solid #22c55e;
+            border-radius: 10px;
+            padding: 24px;
+        }
+
+        /* STAT CARDS */
+        .stat-card {
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+
+        /* CONCEPT CARDS (TAB CÓMO FUNCIONA) */
+        .concept-card {
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 24px;
+            height: 100%;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            transition: all 0.3s;
+        }
+        .concept-card:hover {
+            border-color: #0d6efd;
+            box-shadow: 0 4px 16px rgba(13, 110, 253, 0.12);
+            transform: translateY(-2px);
+        }
+        .concept-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+        .concept-title {
+            font-weight: 700;
+            color: #0d6efd;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        .concept-card p {
+            color: #495057;
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        /* CARRITO ITEMS */
+        .carrito-item {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* TOTAL BAR */
+        .total-bar {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 16px 24px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #212529;
+        }
+
+        /* TOAST */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        /* ANIMATIONS */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .spinner-border {
+            width: 1rem;
+            height: 1rem;
+            border-width: 2px;
+        }
+
+        /* FLOW BADGES */
+        .flow-badge {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <i class="bi bi-cart3 me-2"></i>Sistema de Gestión de E-Commerce
+        </a>
+        <span class="badge bg-success ms-auto">
+            <i class="bi bi-circle-fill me-1" style="font-size: 0.45rem"></i> API Online — Puerto 8080
+        </span>
+    </div>
+</nav>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- CONTENIDO PRINCIPAL -->
+<div class="container-fluid mt-3 px-4">
+
+    <!-- TABS DE NAVEGACIÓN -->
+    <ul class="nav nav-tabs mb-4" id="mainTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#tab-catalogo"><i class="bi bi-box-seam me-1"></i> Catálogo & Stock</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#tab-clientes"><i class="bi bi-people me-1"></i> Clientes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#tab-pos"><i class="bi bi-receipt me-1"></i> Punto de Venta</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#tab-pedidos"><i class="bi bi-clock-history me-1"></i> Historial de Ventas</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#tab-docs"><i class="bi bi-book me-1"></i> Cómo Funciona</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+
+        <!-- ===================== TAB 1: CATÁLOGO & STOCK ===================== -->
+        <div class="tab-pane fade show active" id="tab-catalogo">
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-box-seam me-2"></i>Inventario de Productos</span>
+                            <button class="btn btn-sm btn-outline-primary" onclick="cargarProductos()">
+                                <i class="bi bi-arrow-clockwise"></i> Actualizar
+                            </button>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Código</th>
+                                            <th>Nombre</th>
+                                            <th>Precio</th>
+                                            <th>Stock</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabla-productos">
+                                        <tr><td colspan="5" class="text-center text-muted py-4">Cargando...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="bi bi-plus-circle me-2"></i>Registrar Producto
+                        </div>
+                        <div class="card-body">
+                            <form onsubmit="crearProducto(event)">
+                                <div class="mb-3">
+                                    <label class="form-label">Código</label>
+                                    <input type="text" class="form-control" id="prod-codigo" placeholder="Ej: P001" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="prod-nombre" placeholder="Ej: Laptop HP" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Precio ($)</label>
+                                    <input type="number" step="0.01" min="0.01" class="form-control" id="prod-precio" placeholder="899.99" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Cantidad en Stock</label>
+                                    <input type="number" min="0" class="form-control" id="prod-cantidad" placeholder="10" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="bi bi-check-lg me-1"></i> Registrar Producto
+                                </button>
+                            </form>
+                            <div id="msg-producto" class="mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== TAB 2: CLIENTES ===================== -->
+        <div class="tab-pane fade" id="tab-clientes">
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-people me-2"></i>Clientes Registrados</span>
+                            <button class="btn btn-sm btn-outline-primary" onclick="cargarClientes()">
+                                <i class="bi bi-arrow-clockwise"></i> Actualizar
+                            </button>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Identificación</th>
+                                            <th>Nombre</th>
+                                            <th>Correo Electrónico</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabla-clientes">
+                                        <tr><td colspan="3" class="text-center text-muted py-4">Cargando...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="bi bi-person-plus me-2"></i>Registrar Cliente
+                        </div>
+                        <div class="card-body">
+                            <form onsubmit="crearCliente(event)">
+                                <div class="mb-3">
+                                    <label class="form-label">Identificación / Cédula</label>
+                                    <input type="text" class="form-control" id="cli-id" placeholder="1234567890" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre Completo</label>
+                                    <input type="text" class="form-control" id="cli-nombre" placeholder="Juan Pérez" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Correo Electrónico</label>
+                                    <input type="email" class="form-control" id="cli-correo" placeholder="juan@email.com" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="bi bi-check-lg me-1"></i> Registrar Cliente
+                                </button>
+                            </form>
+                            <div id="msg-cliente" class="mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== TAB 3: PUNTO DE VENTA ===================== -->
+        <div class="tab-pane fade" id="tab-pos">
+            <div class="row g-4">
+                <!-- Panel agregar al carrito -->
+                <div class="col-lg-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="bi bi-bag-plus me-2"></i>Agregar al Carrito
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Seleccionar Cliente</label>
+                                <select class="form-select" id="pos-cliente">
+                                    <option value="">-- Cargando clientes --</option>
+                                </select>
+                            </div>
+                            <hr>
+                            <div class="mb-3">
+                                <label class="form-label">Producto</label>
+                                <select class="form-select" id="pos-producto">
+                                    <option value="">-- Cargando productos --</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Cantidad</label>
+                                <input type="number" min="1" value="1" class="form-control" id="pos-cantidad">
+                            </div>
+                            <button class="btn btn-info w-100 text-white mb-3" onclick="agregarAlCarrito()">
+                                <i class="bi bi-cart-plus me-1"></i> Agregar al Carrito
+                            </button>
+                            <div id="msg-carrito"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carrito actual -->
+                <div class="col-lg-7">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-cart3 me-2"></i>Carrito de Compras</span>
+                            <span class="badge bg-secondary" id="carrito-count">0 ítems</span>
+                        </div>
+                        <div class="card-body">
+                            <div id="carrito-items">
+                                <p class="text-muted text-center py-3">El carrito está vacío</p>
+                            </div>
+                            <div class="total-bar d-flex justify-content-between align-items-center mt-3" id="carrito-total-bar" style="display: none !important">
+                                <span>TOTAL A PAGAR:</span>
+                                <span id="carrito-total" class="text-success fs-4">$0.00</span>
+                            </div>
+                            <button class="btn btn-success w-100 mt-3" id="btn-checkout" onclick="procesarCheckout()" style="display: none">
+                                <i class="bi bi-bag-check me-1"></i> Confirmar Compra
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Comprobante -->
+                    <div id="comprobante-container" class="mt-4" style="display: none"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== TAB 4: HISTORIAL DE VENTAS ===================== -->
+        <div class="tab-pane fade" id="tab-pedidos">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-clock-history me-2"></i>Historial de Pedidos</span>
+                    <button class="btn btn-sm btn-outline-primary" onclick="cargarPedidos()">
+                        <i class="bi bi-arrow-clockwise"></i> Actualizar
+                    </button>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Cliente</th>
+                                    <th>Productos</th>
+                                    <th>Total</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-pedidos">
+                                <tr><td colspan="5" class="text-center text-muted py-4">Cargando...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== TAB 5: CÓMO FUNCIONA ===================== -->
+        <div class="tab-pane fade" id="tab-docs">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-primary">¿Cómo funciona este sistema por detrás?</h2>
+                <p class="text-muted">Una explicación visual y sencilla de la arquitectura y los conceptos aplicados</p>
+            </div>
+
+            <div class="row g-4 mb-4">
+                <!-- Encapsulación -->
+                <div class="col-md-6">
+                    <div class="concept-card">
+                        <div class="concept-icon">🔐</div>
+                        <div class="concept-title">Encapsulación y POO</div>
+                        <p>Imagina que cada producto es una <strong>caja fuerte</strong>. Nadie puede cambiar su precio o stock directamente; deben pasar por una "ventanilla" (los <em>getters</em> y <em>setters</em>) que verifica que el valor sea válido.</p>
+                        <p>En Go, los campos se escriben en <strong>minúsculas</strong> (<code>precio</code>, <code>stock</code>) para que sean privados. Solo los métodos del mismo paquete pueden acceder a ellos. Si alguien intenta poner un precio de <code>-5</code>, el setter lo rechaza con un error. Así, el objeto siempre mantiene un <strong>estado válido y seguro</strong>.</p>
+                        <div class="alert alert-primary mt-3 mb-0">
+                            <i class="bi bi-lightbulb me-1"></i> <strong>Ejemplo:</strong> Al crear un <code>Pedido</code>, no existe ningún setter. Una vez confirmada la compra, nadie puede alterar el total ni la fecha. Eso es <em>inmutabilidad</em>.
+                        </div>
+                    </div>
+                </div>
+                <!-- Worker Pool -->
+                <div class="col-md-6">
+                    <div class="concept-card">
+                        <div class="concept-icon">⚡</div>
+                        <div class="concept-title">Worker Pool y Concurrencia</div>
+                        <p>Piensa en una tienda física con <strong>3 cajeros</strong> (Workers). Cuando llega un cliente con su carrito, no se bloquean los demás cajeros; cada uno atiende una compra en paralelo.</p>
+                        <p>En nuestro sistema, cuando haces <em>checkout</em>, la solicitud viaja por un <strong>canal</strong> (<code>chan SolicitudPedido</code>) hacia un pool de <strong>3 goroutines</strong>. La primera goroutine libre recoge la solicitud, simula la validación de pago (500ms), descuenta el stock y genera el comprobante — todo <strong>sin bloquear</strong> al resto del servidor.</p>
+                        <div class="alert alert-primary mt-3 mb-0">
+                            <i class="bi bi-lightbulb me-1"></i> <strong>Cada goroutine</strong> es como un hilo ultra‑liviano de Go. Se pueden crear miles sin agotar la memoria.
+                        </div>
+                    </div>
+                </div>
+                <!-- Mutex -->
+                <div class="col-md-6">
+                    <div class="concept-card">
+                        <div class="concept-icon">🚦</div>
+                        <div class="concept-title">Semáforo Mutex (sync.RWMutex)</div>
+                        <p>¿Qué pasa si <strong>dos clientes compran el último producto al mismo tiempo</strong>? Sin protección, ambos podrían "ver" 1 unidad, ambos comprarían, y el stock quedaría en <code>-1</code>. Eso es una <em>Race Condition</em>.</p>
+                        <p>Para evitarlo, usamos un <strong>semáforo</strong> llamado <code>sync.RWMutex</code>:</p>
+                        <ul class="mb-2" style="color: #495057">
+                            <li><strong>RLock()</strong> — "Luz verde para leer": muchos pueden leer el catálogo al mismo tiempo.</li>
+                            <li><strong>Lock()</strong> — "Luz roja para todos": solo uno puede escribir (descontar stock). Los demás esperan.</li>
+                        </ul>
+                        <div class="alert alert-primary mt-3 mb-0">
+                            <i class="bi bi-lightbulb me-1"></i> Así se garantiza que si solo queda 1 laptop, <strong>solo una persona</strong> la compra. La otra recibe "Stock insuficiente".
+                        </div>
+                    </div>
+                </div>
+                <!-- Persistencia -->
+                <div class="col-md-6">
+                    <div class="concept-card">
+                        <div class="concept-icon">💾</div>
+                        <div class="concept-title">Persistencia en JSON</div>
+                        <p>Cada vez que registras un producto, un cliente o confirmas una compra, los datos se guardan <strong>automáticamente</strong> en archivos <code>.json</code> dentro de la carpeta <code>datos/</code>.</p>
+                        <p>Al iniciar la aplicación, el sistema lee esos archivos y reconstruye todo en memoria. Si la carpeta no existe, se crea automáticamente gracias a <code>AsegurarDirectorio()</code>. Así, aunque cierres el programa, <strong>tus datos siguen ahí</strong>.</p>
+                        <div class="alert alert-primary mt-3 mb-0">
+                            <i class="bi bi-lightbulb me-1"></i> Los campos privados no se pueden serializar directamente, por eso usamos <strong>DTOs auxiliares</strong> con <code>MarshalJSON</code> / <code>UnmarshalJSON</code>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diagrama de flujo visual -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-diagram-3 me-2"></i>Flujo de una Compra (de principio a fin)
+                </div>
+                <div class="card-body text-center">
+                    <div class="d-flex flex-wrap justify-content-center align-items-center gap-3">
+                        <span class="flow-badge bg-primary">1. Cliente selecciona productos</span>
+                        <i class="bi bi-arrow-right text-primary fs-5"></i>
+                        <span class="flow-badge bg-info">2. POST /api/carrito/agregar</span>
+                        <i class="bi bi-arrow-right text-primary fs-5"></i>
+                        <span class="flow-badge bg-warning">3. POST /api/pedidos/checkout</span>
+                        <i class="bi bi-arrow-right text-primary fs-5"></i>
+                        <span class="flow-badge bg-secondary">4. Canal → Worker Goroutine</span>
+                        <i class="bi bi-arrow-right text-primary fs-5"></i>
+                        <span class="flow-badge bg-danger">5. Mutex Lock → Descuenta Stock</span>
+                        <i class="bi bi-arrow-right text-primary fs-5"></i>
+                        <span class="flow-badge bg-success">6. Pedido guardado en JSON ✓</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4 mb-3 text-muted">
+                <small>Desarrollado por <strong>Marlon Rivera</strong> — Proyecto Integrador POO</small>
+            </div>
+        </div>
+
+    </div><!-- tab-content -->
+</div><!-- container -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ============================================================================
+// UTILIDADES
+// ============================================================================
+const API = '';
+
+async function fetchAPI(ruta, opciones = {}) {
+    try {
+        const resp = await fetch(API + ruta, opciones);
+        return await resp.json();
+    } catch (err) {
+        return { exito: false, mensaje: 'Error de conexión: ' + err.message };
+    }
+}
+
+function mostrarToast(msg, tipo = 'success') {
+    const id = 'toast-' + Date.now();
+    const icon = tipo === 'success' ? 'check-circle-fill' : tipo === 'danger' ? 'exclamation-triangle-fill' : 'info-circle-fill';
+    const html = `<div id="${id}" class="alert alert-${tipo} fade-in d-flex align-items-center gap-2 shadow mb-2" style="min-width:320px">
+        <i class="bi bi-${icon}"></i> <span>${msg}</span>
+    </div>`;
+    document.getElementById('toast-container').insertAdjacentHTML('beforeend', html);
+    setTimeout(() => { const el = document.getElementById(id); if (el) el.remove(); }, 4000);
+}
+
+function formatPrecio(n) { return '$' + Number(n).toFixed(2); }
+
+// ============================================================================
+// TAB 1: PRODUCTOS
+// ============================================================================
+async function cargarProductos() {
+    const res = await fetchAPI('/api/productos');
+    const tbody = document.getElementById('tabla-productos');
+    if (!res.exito || !res.datos || res.datos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">No hay productos registrados</td></tr>';
+        return;
+    }
+    tbody.innerHTML = res.datos.map(p => {
+        const stock = p.cantidad_disponible;
+        let badge = stock > 5 ? '<span class="badge bg-success badge-stock">Disponible</span>'
+                   : stock > 0 ? '<span class="badge bg-warning text-dark badge-stock">Stock bajo</span>'
+                   : '<span class="badge bg-danger badge-stock">Agotado</span>';
+        return `<tr>
+            <td><code class="text-primary">${p.codigo}</code></td>
+            <td>${p.nombre}</td>
+            <td class="fw-semibold">${formatPrecio(p.precio)}</td>
+            <td class="text-center">${stock}</td>
+            <td>${badge}</td>
+        </tr>`;
+    }).join('');
+}
+
+async function crearProducto(e) {
+    e.preventDefault();
+    const datos = {
+        codigo: document.getElementById('prod-codigo').value,
+        nombre: document.getElementById('prod-nombre').value,
+        precio: parseFloat(document.getElementById('prod-precio').value),
+        cantidad: parseInt(document.getElementById('prod-cantidad').value)
+    };
+    const res = await fetchAPI('/api/productos', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos)
+    });
+    const div = document.getElementById('msg-producto');
+    if (res.exito) {
+        div.innerHTML = `<div class="alert alert-success fade-in"><i class="bi bi-check-circle me-1"></i> ${res.mensaje}</div>`;
+        e.target.reset();
+        cargarProductos();
+        cargarProductosSelect();
+        mostrarToast(res.mensaje);
+    } else {
+        div.innerHTML = `<div class="alert alert-danger fade-in"><i class="bi bi-x-circle me-1"></i> ${res.mensaje}</div>`;
+    }
+}
+
+// ============================================================================
+// TAB 2: CLIENTES
+// ============================================================================
+async function cargarClientes() {
+    const res = await fetchAPI('/api/clientes');
+    const tbody = document.getElementById('tabla-clientes');
+    if (!res.exito || !res.datos || res.datos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted py-4">No hay clientes registrados</td></tr>';
+        return;
+    }
+    tbody.innerHTML = res.datos.map(c =>
+        `<tr>
+            <td><code class="text-primary">${c.identificacion}</code></td>
+            <td>${c.nombre}</td>
+            <td>${c.correo}</td>
+        </tr>`
+    ).join('');
+}
+
+async function crearCliente(e) {
+    e.preventDefault();
+    const datos = {
+        identificacion: document.getElementById('cli-id').value,
+        nombre: document.getElementById('cli-nombre').value,
+        correo: document.getElementById('cli-correo').value
+    };
+    const res = await fetchAPI('/api/clientes', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos)
+    });
+    const div = document.getElementById('msg-cliente');
+    if (res.exito) {
+        div.innerHTML = `<div class="alert alert-success fade-in"><i class="bi bi-check-circle me-1"></i> ${res.mensaje}</div>`;
+        e.target.reset();
+        cargarClientes();
+        cargarClientesSelect();
+        mostrarToast(res.mensaje);
+    } else {
+        div.innerHTML = `<div class="alert alert-danger fade-in"><i class="bi bi-x-circle me-1"></i> ${res.mensaje}</div>`;
+    }
+}
+
+// ============================================================================
+// TAB 3: PUNTO DE VENTA
+// ============================================================================
+async function cargarClientesSelect() {
+    const res = await fetchAPI('/api/clientes');
+    const sel = document.getElementById('pos-cliente');
+    sel.innerHTML = '<option value="">-- Seleccione un cliente --</option>';
+    if (res.exito && res.datos) {
+        res.datos.forEach(c => {
+            sel.innerHTML += `<option value="${c.identificacion}">${c.nombre} (${c.identificacion})</option>`;
+        });
+    }
+}
+
+async function cargarProductosSelect() {
+    const res = await fetchAPI('/api/productos');
+    const sel = document.getElementById('pos-producto');
+    sel.innerHTML = '<option value="">-- Seleccione un producto --</option>';
+    if (res.exito && res.datos) {
+        res.datos.forEach(p => {
+            if (p.cantidad_disponible > 0) {
+                sel.innerHTML += `<option value="${p.codigo}">${p.nombre} — ${formatPrecio(p.precio)} (Stock: ${p.cantidad_disponible})</option>`;
+            }
+        });
+    }
+}
+
+async function agregarAlCarrito() {
+    const codigoProducto = document.getElementById('pos-producto').value;
+    const cantidad = parseInt(document.getElementById('pos-cantidad').value) || 1;
+    if (!codigoProducto) { mostrarToast('Seleccione un producto', 'danger'); return; }
+
+    const res = await fetchAPI('/api/carrito/agregar', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ codigo_producto: codigoProducto, cantidad: cantidad })
+    });
+
+    const div = document.getElementById('msg-carrito');
+    if (res.exito) {
+        div.innerHTML = `<div class="alert alert-success fade-in mb-0"><i class="bi bi-check-circle me-1"></i> ${res.mensaje}</div>`;
+        actualizarVistaCarrito(res.datos);
+        mostrarToast(res.mensaje);
+    } else {
+        div.innerHTML = `<div class="alert alert-danger fade-in mb-0"><i class="bi bi-x-circle me-1"></i> ${res.mensaje}</div>`;
+        mostrarToast(res.mensaje, 'danger');
+    }
+}
+
+function actualizarVistaCarrito(datos) {
+    const container = document.getElementById('carrito-items');
+    const totalBar = document.getElementById('carrito-total-bar');
+    const totalEl = document.getElementById('carrito-total');
+    const countEl = document.getElementById('carrito-count');
+    const btnCheckout = document.getElementById('btn-checkout');
+
+    if (!datos || !datos.elementos || datos.elementos.length === 0) {
+        container.innerHTML = '<p class="text-muted text-center py-3">El carrito está vacío</p>';
+        totalBar.style.setProperty('display', 'none', 'important');
+        btnCheckout.style.display = 'none';
+        countEl.textContent = '0 ítems';
+        return;
+    }
+
+    container.innerHTML = datos.elementos.map(elem =>
+        `<div class="carrito-item fade-in">
+            <div>
+                <strong class="text-dark">${elem.producto.nombre}</strong><br>
+                <small class="text-muted">${elem.producto.codigo} × ${elem.cantidad}</small>
+            </div>
+            <div class="text-success fw-bold">${formatPrecio(elem.subtotal)}</div>
+        </div>`
+    ).join('');
+
+    totalBar.style.setProperty('display', 'flex', 'important');
+    totalEl.textContent = formatPrecio(datos.total);
+    countEl.textContent = datos.cantidad_items + ' ítems';
+    btnCheckout.style.display = 'block';
+}
+
+async function procesarCheckout() {
+    const clienteId = document.getElementById('pos-cliente').value;
+    if (!clienteId) { mostrarToast('Seleccione un cliente antes de confirmar', 'danger'); return; }
+
+    const btn = document.getElementById('btn-checkout');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border me-2"></span> Procesando compra...';
+
+    const res = await fetchAPI('/api/pedidos/checkout', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identificacion_cliente: clienteId })
+    });
+
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-bag-check me-1"></i> Confirmar Compra';
+
+    if (res.exito) {
+        mostrarToast('¡Compra procesada con éxito!');
+        actualizarVistaCarrito(null);
+        document.getElementById('msg-carrito').innerHTML = '';
+
+        const d = res.datos;
+        const items = d.elementos ? d.elementos.map(e =>
+            `<tr><td>${e.producto.nombre}</td><td class="text-center">${e.cantidad}</td><td class="text-end">${formatPrecio(e.subtotal)}</td></tr>`
+        ).join('') : '';
+
+        document.getElementById('comprobante-container').style.display = 'block';
+        document.getElementById('comprobante-container').innerHTML = `
+            <div class="comprobante fade-in">
+                <h5 class="text-center mb-3 text-success">
+                    <i class="bi bi-bag-check-fill me-1"></i> ¡Compra Realizada con Éxito!
+                </h5>
+                <div class="row mb-3">
+                    <div class="col-6"><strong>Pedido:</strong> ${d.codigo_pedido}</div>
+                    <div class="col-6 text-end"><strong>Fecha:</strong> ${d.fecha}</div>
+                </div>
+                <p><strong>Cliente:</strong> ${d.cliente}</p>
+                <table class="table table-sm table-bordered">
+                    <thead class="table-light">
+                        <tr><th>Producto</th><th class="text-center">Cant.</th><th class="text-end">Subtotal</th></tr>
+                    </thead>
+                    <tbody>${items}</tbody>
+                </table>
+                <div class="text-end fs-5 fw-bold text-success">TOTAL: ${formatPrecio(d.total)}</div>
+            </div>`;
+        cargarProductos();
+        cargarProductosSelect();
+    } else {
+        mostrarToast(res.mensaje, 'danger');
+    }
+}
+
+// ============================================================================
+// TAB 4: HISTORIAL DE VENTAS
+// ============================================================================
+async function cargarPedidos() {
+    const res = await fetchAPI('/api/pedidos');
+    const tbody = document.getElementById('tabla-pedidos');
+    if (!res.exito || !res.datos || res.datos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">No hay pedidos registrados</td></tr>';
+        return;
+    }
+    tbody.innerHTML = res.datos.map(p => {
+        const prods = p.elementos ? p.elementos.map(e => `${e.producto.nombre} (×${e.cantidad})`).join(', ') : '—';
+        return `<tr>
+            <td><code class="text-primary">${p.codigo}</code></td>
+            <td>${p.cliente.nombre}</td>
+            <td><small>${prods}</small></td>
+            <td class="fw-bold text-success">${formatPrecio(p.total)}</td>
+            <td><small class="text-muted">${p.fecha}</small></td>
+        </tr>`;
+    }).join('');
+}
+
+// ============================================================================
+// INICIALIZACIÓN
+// ============================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    cargarProductos();
+    cargarClientes();
+    cargarPedidos();
+    cargarClientesSelect();
+    cargarProductosSelect();
+});
+
+document.querySelectorAll('#mainTabs .nav-link').forEach(tab => {
+    tab.addEventListener('shown.bs.tab', () => {
+        cargarProductos();
+        cargarClientes();
+        cargarPedidos();
+        cargarClientesSelect();
+        cargarProductosSelect();
+    });
+});
+</script>
+</body>
+</html>

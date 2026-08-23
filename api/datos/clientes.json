@@ -1,0 +1,12 @@
+[
+  {
+    "identificacion": "1234567890",
+    "nombre": "Juan Pérez",
+    "correo": "juan@email.com"
+  },
+  {
+    "identificacion": "0987654321",
+    "nombre": "María López",
+    "correo": "maria@email.com"
+  }
+]

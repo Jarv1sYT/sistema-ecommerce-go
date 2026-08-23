@@ -1,48 +1,253 @@
-# Sistema de Gestión de E-commerce
+# 🛒 Sistema de Gestión de E-Commerce
 
-Proyecto académico desarrollado en **Golang** para administrar las operaciones básicas de una tienda electrónica mediante una aplicación de consola.
+> Proyecto integrador de la asignatura **Programación Orientada a Objetos** — Carrera de Ingeniería en Software
 
-## Objetivo general
+[![Go](https://img.shields.io/badge/Go-1.22+-00ADD8?style=flat&logo=go&logoColor=white)](https://go.dev/)
+[![Tests](https://img.shields.io/badge/Tests-44%20passed-brightgreen?style=flat)](./servicios/)
+[![Endpoints](https://img.shields.io/badge/API%20REST-8%20endpoints-blue?style=flat)](./api/)
+[![License](https://img.shields.io/badge/License-Academic-yellow?style=flat)]()
 
-Desarrollar un sistema de gestión de e-commerce que permita registrar y administrar productos, clientes, inventario, carritos de compra y pedidos, aplicando los fundamentos de programación estudiados en la asignatura.
+---
 
-## Objetivos específicos
+## 📋 Descripción
 
-- Registrar productos con su nombre, precio y cantidad disponible.
-- Consultar y listar los productos registrados.
-- Registrar y administrar clientes.
-- Controlar la disponibilidad de productos en el inventario.
-- Agregar productos a un carrito de compras.
-- Procesar pedidos y calcular el valor total de una compra.
-- Generar reportes básicos de ventas.
+Sistema completo de gestión de comercio electrónico desarrollado en **Go (Golang)**, que implementa los 4 pilares fundamentales de la asignatura:
 
-## Módulos planificados
+| Unidad | Concepto | Implementación |
+|--------|----------|----------------|
+| **Unidad 1-2** | Programación Orientada a Objetos | Estructuras, métodos, constructores y composición |
+| **Unidad 3** | Encapsulación e Interfaces | Campos privados, getters/setters controlados, interfaz `Mostrable` |
+| **Unidad 4** | Servicios Web y Concurrencia | API REST con 8 endpoints JSON + Worker Pool con Goroutines y Channels |
+| **Unidad 4** | Testing Automatizado | 44 pruebas unitarias y de integración con `testing` y `httptest` |
 
-1. Gestión de productos.
-2. Gestión de clientes.
-3. Gestión de inventario.
-4. Carrito de compras.
-5. Gestión de pedidos.
-6. Reporte de ventas.
+El software opera simultáneamente en:
+- 🖥️ **Consola interactiva** con menús y navegación por terminal.
+- 🌐 **Servidor API REST** en `http://localhost:8080` con 8 endpoints JSON.
+- 💻 **Interfaz Web SPA** accesible desde el navegador en `http://localhost:8080` (diseñada con Bootstrap 5, tema claro de alto contraste).
 
-## Tecnologías utilizadas
+---
 
-- Golang 1.26.5
-- Visual Studio Code
-- GitHub
-- Aplicación de consola
+## 👤 Autor
 
-## Requisitos
+| Nombre | Rol |
+|--------|-----|
+| **Marlon Rivera** | Desarrollador único — Diseño, Arquitectura, Implementación, Testing y Documentación |
 
-Para ejecutar el proyecto es necesario tener instalado:
+---
 
-- Go 1.26.5 o una versión compatible.
-- Visual Studio Code u otro editor de código.
-- La extensión oficial de Go para Visual Studio Code.
+## 🏗️ Arquitectura del Software
 
-## Ejecución del proyecto
+```
+sistema-ecommerce-go/
+│
+├── main.go                        # Punto de entrada (orquestador)
+├── go.mod                         # Módulo Go
+│
+├── modelos/                       # Capa de Dominio (POO + Encapsulación)
+│   ├── producto.go                # Struct Producto (campos privados + getters/setters)
+│   ├── cliente.go                 # Struct Cliente (interfaz Mostrable)
+│   ├── carrito.go                 # Struct Carrito + ElementoCarrito
+│   └── pedido.go                  # Struct Pedido (inmutable, solo getters)
+│
+├── servicios/                     # Capa de Lógica de Negocio
+│   ├── productos.go               # CRUD de productos
+│   ├── clientes.go                # CRUD de clientes + interfaz Mostrable
+│   ├── inventario.go              # Consultas de inventario
+│   ├── carrito.go                 # Gestión del carrito + Checkout transaccional
+│   ├── pedidos.go                 # Historial y búsqueda de pedidos
+│   ├── productos_test.go          # ✅ 15 pruebas unitarias
+│   └── pedidos_test.go            # ✅ 14 pruebas unitarias
+│
+├── utilidades/                    # Capa de Soporte Transversal
+│   ├── entradas.go                # Lectura segura por consola (bufio.Reader)
+│   ├── archivos.go                # Persistencia en archivos JSON
+│   └── menu.go                    # Interfaces de menús en consola
+│
+├── api/                           # Capa Web (Unidad 4)
+│   ├── servidor.go                # Configuración del servidor HTTP y rutas
+│   ├── handlers.go                # 8 Endpoints REST con JSON
+│   ├── worker.go                  # Worker Pool (Goroutines + Channels + Mutex)
+│   └── handlers_test.go           # ✅ 16 pruebas de integración HTTP
+│
+├── public/                        # Capa de Presentación (Frontend)
+│   └── index.html                 # SPA con Bootstrap 5 que consume la API
+│
+└── datos/                         # Persistencia en disco
+    ├── productos.json
+    ├── clientes.json
+    └── pedidos.json
+```
 
-Abrir una terminal dentro de la carpeta del proyecto y ejecutar:
+### Principios de Diseño Aplicados
+
+- **Encapsulación estricta**: Todos los campos de las estructuras son privados (minúsculas). Solo se accede mediante getters y setters controlados con validaciones.
+- **Constructores seguros**: Cada entidad se instancia exclusivamente a través de funciones constructoras (`NuevoProducto`, `NuevoCliente`, `NuevoPedido`) que validan el estado inicial.
+- **Inmutabilidad**: La estructura `Pedido` no tiene setters; una vez creada, no puede modificarse.
+- **Copias defensivas**: `GetElementos()` en `Carrito` y `Pedido` retorna copias del slice interno para proteger el estado encapsulado.
+- **Serialización encapsulada**: Se utilizan DTOs privados + `MarshalJSON`/`UnmarshalJSON` para serializar campos privados sin exponerlos.
+
+---
+
+## 🚀 Guía de Instalación y Ejecución
+
+### Requisitos Previos
+
+- [Go 1.22 o superior](https://go.dev/dl/) instalado.
+- Terminal de comandos (PowerShell, CMD o Bash).
+
+### Clonar el Repositorio
 
 ```bash
-go run .
+git clone https://github.com/[usuario]/sistema-ecommerce-go.git
+cd sistema-ecommerce-go
+```
+
+### Compilar y Ejecutar
+
+```bash
+# Ejecutar directamente
+go run main.go
+
+# O compilar y luego ejecutar el binario
+go build -o ecommerce.exe
+./ecommerce.exe
+```
+
+Al iniciar, el sistema:
+1. Carga los datos existentes desde `datos/*.json`.
+2. Inicia el **servidor API REST y la Interfaz Web** en `http://localhost:8080`.
+3. Muestra el **menú interactivo** en la consola.
+
+### Ejecutar las Pruebas Automatizadas
+
+```bash
+# Ejecutar todos los 44 tests
+go test ./...
+
+# Ejecutar con detalle completo
+go test -v ./...
+
+# Solo tests de lógica de negocio
+go test -v ./servicios/
+
+# Solo tests de integración HTTP
+go test -v ./api/
+```
+
+---
+
+## 🌐 Documentación de Endpoints REST (8 Servicios Web)
+
+El servidor escucha en `http://localhost:8080`. Todos los endpoints responden en formato JSON.
+
+### Estructura de Respuesta Estándar
+
+```json
+{
+  "exito": true,
+  "mensaje": "Descripción del resultado",
+  "datos": { }
+}
+```
+
+### Tabla de Endpoints
+
+| # | Método | Ruta | Descripción | Payload JSON (entrada) | Código HTTP |
+|---|--------|------|-------------|----------------------|-------------|
+| 1 | `GET` | `/api/productos` | Listar catálogo completo | — | `200 OK` |
+| 2 | `GET` | `/api/productos/{id}` | Consultar detalle/stock de un producto | — | `200 OK` / `404 Not Found` |
+| 3 | `POST` | `/api/productos` | Registrar nuevo producto | `{"codigo":"P001", "nombre":"Laptop HP", "precio":899.99, "cantidad":10}` | `201 Created` / `409 Conflict` |
+| 4 | `GET` | `/api/clientes` | Listar clientes registrados | — | `200 OK` |
+| 5 | `POST` | `/api/clientes` | Registrar nuevo cliente | `{"identificacion":"1234567890", "nombre":"Juan Pérez", "correo":"juan@email.com"}` | `201 Created` / `409 Conflict` |
+| 6 | `POST` | `/api/carrito/agregar` | Añadir producto al carrito | `{"codigo_producto":"P001", "cantidad":2}` | `200 OK` / `404 Not Found` |
+| 7 | `POST` | `/api/pedidos/checkout` | Confirmar compra (Checkout) | `{"identificacion_cliente":"1234567890"}` | `201 Created` / `400 Bad Request` |
+| 8 | `GET` | `/api/pedidos` | Listar historial de pedidos | — (opcional: `?cliente=1234567890`) | `200 OK` |
+
+### Ejemplos con curl
+
+```bash
+# Registrar producto
+curl -X POST http://localhost:8080/api/productos \
+  -H "Content-Type: application/json" \
+  -d '{"codigo":"P001","nombre":"Laptop HP","precio":899.99,"cantidad":10}'
+
+# Agregar al carrito
+curl -X POST http://localhost:8080/api/carrito/agregar \
+  -H "Content-Type: application/json" \
+  -d '{"codigo_producto":"P001","cantidad":2}'
+
+# Confirmar compra
+curl -X POST http://localhost:8080/api/pedidos/checkout \
+  -H "Content-Type: application/json" \
+  -d '{"identificacion_cliente":"1234567890"}'
+```
+
+---
+
+## ⚡ Concurrencia: Worker Pool con Goroutines y Channels
+
+El sistema implementa un **Worker Pool** para procesar pedidos de forma concurrente sin bloquear las respuestas HTTP.
+
+### Flujo de Concurrencia
+
+```
+Petición HTTP ──► CheckoutHandler ──► [Canal de Solicitudes] ──► Worker Goroutine 1
+                                                              ──► Worker Goroutine 2
+                                                              ──► Worker Goroutine 3
+                                                                        │
+                                                                        ▼
+                                                                 sync.RWMutex
+                                                               (Protege inventario)
+                                                                        │
+                                                                        ▼
+                                                              [Canal de Respuestas]
+                                                                        │
+                                                                        ▼
+                                                              Respuesta HTTP JSON
+```
+
+### Conceptos Implementados
+
+| Concepto | Archivo | Descripción |
+|----------|---------|-------------|
+| **Goroutines** | `api/worker.go` | 3 funciones `worker()` ejecutándose concurrentemente con `go p.worker(i)` |
+| **Channels** | `api/worker.go` | `chan SolicitudPedido` para enviar pedidos al pool y `chan ResultadoPedido` para recibir respuestas |
+| **sync.RWMutex** | `api/servidor.go`, `api/worker.go` | `RLock()/RUnlock()` para lecturas concurrentes, `Lock()/Unlock()` para escrituras exclusivas al descontar stock |
+| **Simulación asíncrona** | `api/worker.go` | `time.Sleep(500ms)` simula la latencia de una pasarela de pagos externa |
+
+---
+
+## ✅ Testing Automatizado (44 Pruebas)
+
+| Paquete | Archivo | Tests | Tipo |
+|---------|---------|-------|------|
+| `servicios` | `productos_test.go` | 15 | Unitarias (validaciones, búsqueda, stock) |
+| `servicios` | `pedidos_test.go` | 14 | Unitarias (pedidos, carrito, checkout, clientes) |
+| `api` | `handlers_test.go` | 16 | Integración HTTP con `httptest.NewRecorder()` |
+| **Total** | | **44** | **100% PASS** |
+
+```bash
+# Resultado esperado:
+ok   sistema-ecommerce-go/api         0.948s
+ok   sistema-ecommerce-go/servicios   0.258s
+```
+
+---
+
+## 📁 Persistencia de Datos
+
+Los datos se almacenan en archivos JSON dentro de la carpeta `datos/`:
+
+| Archivo | Contenido |
+|---------|-----------|
+| `datos/productos.json` | Inventario de productos con stock actualizado |
+| `datos/clientes.json` | Clientes registrados en el sistema |
+| `datos/pedidos.json` | Historial completo de compras realizadas |
+
+La carpeta `datos/` se crea automáticamente al ejecutar la aplicación por primera vez.
+
+---
+
+## 📄 Licencia
+
+Proyecto académico desarrollado como parte del proyecto integrador de la asignatura Programación Orientada a Objetos.
