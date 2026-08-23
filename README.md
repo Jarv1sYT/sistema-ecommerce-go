@@ -11,11 +11,11 @@
 
 ## 📋 Descripción
 
-Sistema integral de comercio electrónico en Go desarrollado con POO estricta, API REST nativa, interfaz web Bootstrap, persistencia JSON y procesamiento concurrente de compras mediante Worker Pool (Goroutines y Channels)[cite: 1].
+Sistema integral de comercio electrónico en Go desarrollado con POO estricta, API REST nativa, interfaz web Bootstrap, persistencia JSON y procesamiento concurrente de compras mediante Worker Pool (Goroutines y Channels).
 
 El software opera en **dos modos simultáneos**:
-- 🖥️ **Consola interactiva** con menús y navegación por terminal[cite: 1].
-- 🌐 **Servidor API REST** en `http://localhost:8080` con 8 endpoints JSON[cite: 1].
+- 🖥️ **Consola interactiva** con menús y navegación por terminal.
+- 🌐 **Servidor API REST** en `http://localhost:8080` con 8 endpoints JSON.
 
 ---
 
@@ -106,9 +106,9 @@ go build -o ecommerce.exe
 ```
 
 Al iniciar, el sistema:
-1. Carga los datos existentes desde `datos/*.json`[cite: 1].
-2. Inicia el **servidor API REST** en `http://localhost:8080`[cite: 1].
-3. Muestra el **menú interactivo** en la consola[cite: 1].
+1. Carga los datos existentes desde `datos/*.json`.
+2. Inicia el **servidor API REST** en `http://localhost:8080`.
+3. Muestra el **menú interactivo** en la consola.
 
 ### Ejecutar las Pruebas Automatizadas
 
@@ -130,7 +130,7 @@ go test -v ./api/
 
 ## 🌐 Documentación de Endpoints REST (8 Servicios Web)
 
-El servidor escucha en `http://localhost:8080`. Todos los endpoints responden en formato JSON[cite: 1].
+El servidor escucha en `http://localhost:8080`. Todos los endpoints responden en formato JSON.
 
 ### Estructura de Respuesta Estándar
 
@@ -225,15 +225,15 @@ ok   sistema-ecommerce-go/servicios   0.258s    ← 28 tests PASS
 
 ## 📁 Persistencia de Datos
 
-Los datos se almacenan en archivos JSON dentro de la carpeta `datos/`[cite: 1]:
+Los datos se almacenan en archivos JSON dentro de la carpeta `datos/`:
 
 | Archivo | Contenido |
 |---|---|
-| `datos/productos.json` | Inventario de productos con stock actualizado[cite: 1] |
-| `datos/clientes.json` | Clientes registrados en el sistema[cite: 1] |
-| `datos/pedidos.json` | Historial completo de compras realizadas[cite: 1] |
+| `datos/productos.json` | Inventario de productos con stock actualizado |
+| `datos/clientes.json` | Clientes registrados en el sistema |
+| `datos/pedidos.json` | Historial completo de compras realizadas |
 
-La carpeta `datos/` se crea automáticamente al ejecutar la aplicación por primera vez[cite: 1].
+La carpeta `datos/` se crea automáticamente al ejecutar la aplicación por primera vez.
 
 ---
 
