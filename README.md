@@ -1,4 +1,4 @@
-# 🛒 Sistema de Gestión de E-Commerce
+# 🛒 Sistema de Gestión de E-Commerce por Marlon Rivera
 
 > Proyecto integrador de la asignatura **Programación Orientada a Objetos**
 
@@ -16,16 +16,6 @@ Sistema integral de comercio electrónico en Go desarrollado con POO estricta, A
 El software opera en **dos modos simultáneos**:
 - 🖥️ **Consola interactiva** con menús y navegación por terminal.
 - 🌐 **Servidor API REST** en `http://localhost:8080` con 8 endpoints JSON.
-
----
-
-## 👤 Autor
-
-| Nombre |
-|---|
-| **Marlon Rivera** |
-
----
 
 ## 🏗️ Arquitectura del Software
 
