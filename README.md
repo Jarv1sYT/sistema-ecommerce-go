@@ -1,6 +1,6 @@
 # 🛒 Sistema de Gestión de E-Commerce
 
-> Proyecto integrador de la asignatura **Programación Orientada a Objetos** — Carrera de Ingeniería en Software
+> Proyecto integrador de la asignatura **Programación Orientada a Objetos**
 
 [![Go](https://img.shields.io/badge/Go-1.22+-00ADD8?style=flat&logo=go&logoColor=white)](https://go.dev/)
 [![Tests](https://img.shields.io/badge/Tests-44%20passed-brightgreen?style=flat)](./servicios/)
@@ -13,17 +13,9 @@
 
 Sistema completo de gestión de comercio electrónico desarrollado en **Go (Golang)**, que implementa los 4 pilares fundamentales de la asignatura:
 
-| Unidad | Concepto | Implementación |
-|--------|----------|----------------|
-| **Unidad 1-2** | Programación Orientada a Objetos | Estructuras, métodos, constructores y composición |
-| **Unidad 3**   | Encapsulación e Interfaces | Campos privados, getters/setters controlados, interfaz `Mostrable` |
-| **Unidad 4**   | Servicios Web y Concurrencia | API REST con 8 endpoints JSON + Worker Pool con Goroutines y Channels |
-| **Unidad 4**   | Testing Automatizado | 44 pruebas unitarias y de integración con `testing` y `httptest` |
-
-El software opera simultáneamente en:
+El software opera en **dos modos simultáneos**:
 - 🖥️ **Consola interactiva** con menús y navegación por terminal.
 - 🌐 **Servidor API REST** en `http://localhost:8080` con 8 endpoints JSON.
-- 💻 **Interfaz Web SPA** accesible desde el navegador en `http://localhost:8080` (diseñada con Bootstrap 5, tema claro de alto contraste).
 
 ---
 
@@ -31,7 +23,7 @@ El software opera simultáneamente en:
 
 | Nombre |
 |--------|
-| **Marlon Rivera** |
+| **Marlon Rivera**
 
 ---
 
@@ -69,15 +61,11 @@ sistema-ecommerce-go/
 │   ├── worker.go                  # Worker Pool (Goroutines + Channels + Mutex)
 │   └── handlers_test.go           # 16 pruebas de integración HTTP
 │
-├── public/                        # Capa de Presentación (Frontend)
-│   └── index.html                 # SPA con Bootstrap 5 que consume la API
-│
 └── datos/                         # Persistencia en disco
     ├── productos.json
     ├── clientes.json
     └── pedidos.json
 ```
-
 ### Principios de Diseño Aplicados
 
 - **Encapsulación estricta**: Todos los campos de las estructuras son privados (minúsculas). Solo se accede mediante getters y setters controlados con validaciones.
@@ -101,7 +89,6 @@ sistema-ecommerce-go/
 git clone https://github.com/[usuario]/sistema-ecommerce-go.git
 cd sistema-ecommerce-go
 ```
-
 ### Compilar y Ejecutar
 
 ```bash
@@ -115,7 +102,7 @@ go build -o ecommerce.exe
 
 Al iniciar, el sistema:
 1. Carga los datos existentes desde `datos/*.json`.
-2. Inicia el **servidor API REST y la Interfaz Web** en `http://localhost:8080`.
+2. Inicia el **servidor API REST** en `http://localhost:8080`.
 3. Muestra el **menú interactivo** en la consola.
 
 ### Ejecutar las Pruebas Automatizadas
@@ -133,7 +120,6 @@ go test -v ./servicios/
 # Solo tests de integración HTTP
 go test -v ./api/
 ```
-
 ---
 
 ## 🌐 Documentación de Endpoints REST (8 Servicios Web)
@@ -149,20 +135,6 @@ El servidor escucha en `http://localhost:8080`. Todos los endpoints responden en
   "datos": { }
 }
 ```
-
-### Tabla de Endpoints
-
-| # | Método | Ruta | Descripción | Payload JSON (entrada) | Código HTTP |
-|---|--------|------|-------------|----------------------|-------------|
-| 1 | `GET` | `/api/productos` | Listar catálogo completo | — | `200 OK` |
-| 2 | `GET` | `/api/productos/{id}` | Consultar detalle/stock de un producto | — | `200 OK` / `404 Not Found` |
-| 3 | `POST` | `/api/productos` | Registrar nuevo producto | `{"codigo":"P001", "nombre":"Laptop HP", "precio":899.99, "cantidad":10}` | `201 Created` / `409 Conflict` |
-| 4 | `GET` | `/api/clientes` | Listar clientes registrados | — | `200 OK` |
-| 5 | `POST` | `/api/clientes` | Registrar nuevo cliente | `{"identificacion":"1234567890", "nombre":"Juan Pérez", "correo":"juan@email.com"}` | `201 Created` / `409 Conflict` |
-| 6 | `POST` | `/api/carrito/agregar` | Añadir producto al carrito | `{"codigo_producto":"P001", "cantidad":2}` | `200 OK` / `404 Not Found` |
-| 7 | `POST` | `/api/pedidos/checkout` | Confirmar compra (Checkout) | `{"identificacion_cliente":"1234567890"}` | `201 Created` / `400 Bad Request` |
-| 8 | `GET` | `/api/pedidos` | Listar historial de pedidos | — (opcional: `?cliente=1234567890`) | `200 OK` |
-
 ### Ejemplos con curl
 
 ```bash
@@ -188,52 +160,6 @@ curl -X POST http://localhost:8080/api/pedidos/checkout \
 
 El sistema implementa un **Worker Pool** para procesar pedidos de forma concurrente sin bloquear las respuestas HTTP.
 
-### Flujo de Concurrencia
-
-```
-Petición HTTP ──► CheckoutHandler ──► [Canal de Solicitudes]  ──► Worker Goroutine 1
-                                                              ──► Worker Goroutine 2
-                                                              ──► Worker Goroutine 3
-                                                                        │
-                                                                        ▼
-                                                                 sync.RWMutex
-                                                               (Protege inventario)
-                                                                        │
-                                                                        ▼
-                                                              [Canal de Respuestas]
-                                                                        │
-                                                                        ▼
-                                                              Respuesta HTTP JSON
-```
-
-### Conceptos Implementados
-
-| Concepto | Archivo | Descripción |
-|----------|---------|-------------|
-| **Goroutines** | `api/worker.go` | 3 funciones `worker()` ejecutándose concurrentemente con `go p.worker(i)` |
-| **Channels** | `api/worker.go` | `chan SolicitudPedido` para enviar pedidos al pool y `chan ResultadoPedido` para recibir respuestas |
-| **sync.RWMutex** | `api/servidor.go`, `api/worker.go` | `RLock()/RUnlock()` para lecturas concurrentes, `Lock()/Unlock()` para escrituras exclusivas al descontar stock |
-| **Simulación asíncrona** | `api/worker.go` | `time.Sleep(500ms)` simula la latencia de una pasarela de pagos externa |
-
----
-
-## ✅ Testing Automatizado (44 Pruebas)
-
-| Paquete | Archivo | Tests | Tipo |
-|---------|---------|-------|------|
-| `servicios` | `productos_test.go` | 15 | Unitarias (validaciones, búsqueda, stock) |
-| `servicios` | `pedidos_test.go` | 14 | Unitarias (pedidos, carrito, checkout, clientes) |
-| `api` | `handlers_test.go` | 16 | Integración HTTP con `httptest.NewRecorder()` |
-| **Total** | | **44** | **100% PASS** |
-
-```bash
-# Resultado esperado:
-ok   sistema-ecommerce-go/api         0.948s
-ok   sistema-ecommerce-go/servicios   0.258s
-```
-
----
-
 ## 📁 Persistencia de Datos
 
 Los datos se almacenan en archivos JSON dentro de la carpeta `datos/`:
@@ -241,8 +167,8 @@ Los datos se almacenan en archivos JSON dentro de la carpeta `datos/`:
 | Archivo | Contenido |
 |---------|-----------|
 | `datos/productos.json` | Inventario de productos con stock actualizado |
-| `datos/clientes.json` | Clientes registrados en el sistema |
-| `datos/pedidos.json` | Historial completo de compras realizadas |
+| `datos/clientes.json`  | Clientes registrados en el sistema |
+| `datos/pedidos.json`   | Historial completo de compras realizadas |
 
 La carpeta `datos/` se crea automáticamente al ejecutar la aplicación por primera vez.
 
@@ -250,4 +176,4 @@ La carpeta `datos/` se crea automáticamente al ejecutar la aplicación por prim
 
 ## 📄 Licencia
 
-Proyecto académico desarrollado como parte del proyecto integrador de la asignatura Programación Orientada a Objetos.
+Proyecto académico desarrollado como parte del proyecto integrador de la asignatura Programación Orientada a Objetos, desarollado por Marlon Rivera.
